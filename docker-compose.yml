@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  client:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+    image: cyderes-assessment-client:1.0.0
+    container_name: frontend_container
+    command: npm start
+
+  api:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    image: cyderes-assessment-api:1.0.0
+    container_name: backend_container
+    environment:
+      - PORT=8000
+      - API_KEY=at_8f0haZOf7WqfmPu5Smd7fj78Z16zw
+      - WHOIS_API_URL=https://www.whoisxmlapi.com/whoisserver/WhoisService
+    command: yarn start
